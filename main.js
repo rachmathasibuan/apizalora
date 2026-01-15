@@ -1,11 +1,11 @@
 console.log("Update Stok Zalora")
-import {setPreviousStok} from './setprevstok.js'
+import { setPreviousStok } from './setprevstok.js'
 import { updateStokFromKalista } from './updatestokfromkalista.js'
-import {getQueueItems} from './getqueueitems.js'
+import { getQueueItems } from './getqueueitems.js'
 import sleep from './sleep.js'
 import { getZaloraId } from './getzaloraid.js'
-import { updateStok } from './updatestok.js' 
-import { setCurrentAccessToken} from './apizalora.js'
+import { updateStok } from './updatestok.js'
+import { setCurrentAccessToken } from './apizalora.js'
 import cron from 'node-cron'
 
 // jadwal cron
@@ -25,16 +25,21 @@ main()
 
 
 async function main() {
+    const args = process.argv.slice(2);
+    if (args.includes('--now')) {
+        console.log('Update stok zalora');
+        await updateZaloraStock()
+    } else {
+        const task = cron.schedule(CRON_SCHEDULE, async () => {
+            await updateZaloraStock()
+        },
+            {
+                timezone: 'Asia/Jakarta'
+            }
+        );
 
-    const task = cron.schedule(CRON_SCHEDULE, async () => {
-		     await updateZaloraStock()
-        }, 
-        {
-            timezone: 'Asia/Jakarta'
-        }
-    );
-			
-	task.start();
+        task.start();
+    }
 }
 
 
@@ -43,13 +48,13 @@ async function updateZaloraStock() {
     try {
 
         await setCurrentAccessToken()
-        await setPreviousStok() 
+        await setPreviousStok()
         await updateStokFromKalista()
-        let items =await getQueueItems()
+        let items = await getQueueItems()
 
         for (let heinvitem_id of items) {
             // console.log(heinvitem_id)
-            await sleep (250)
+            await sleep(250)
 
             await getZaloraId(heinvitem_id)
             await updateStok(heinvitem_id)
