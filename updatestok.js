@@ -2,11 +2,11 @@ import { getConnection } from './conn.js'
 import { apiPut } from './apizalora.js'
 import * as setting from './setting.js'
 
-export async function updateStok(heinvitem_id){
-    // console.log(`update zalora ${heinvitem_id}`)
+export async function updateStok(heinvitem_id) {
+  // console.log(`update zalora ${heinvitem_id}`)
 
-    // query table, akan mendapatkan
-    // zalora_sku, current_stok, dan previous_stok
+  // query table, akan mendapatkan
+  // zalora_sku, current_stok, dan previous_stok
   let db
   try {
     console.log(`\nUpdate stok untuk item: ${heinvitem_id}`)
@@ -61,7 +61,7 @@ export async function updateStok(heinvitem_id){
 
     // Call API
     const product_url = `${setting.ZALORA_URL}/${setting.PRODUCT_UPDATE}`
-    const response = await apiPut(product_url,body)
+    const response = await apiPut(product_url, body)
 
     console.log('✅ Update Zalora sukses:', response)
 
