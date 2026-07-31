@@ -15,7 +15,7 @@ export async function updateStokFromKalista() {
         SUM(a.total_qty) AS total_stok
         FROM tmp_invitemposition a
         WHERE a.region_id IN ('02600','00900','03400')
-        AND a.branch_id IN ('0001904','0000700','0006920','0006930','0006940','0001908')
+        AND a.branch_id IN ('0001904','0000700','0006920','0001700')
         GROUP BY a.heinvitem_id
     ) b ON a.heinvitem_id = b.heinvitem_id
     SET a.curr_stok = COALESCE(b.total_stok, 0)`)

@@ -44,10 +44,10 @@ export async function updateStok(heinvitem_id) {
     console.log(`ZaloraID: ${zalora_id} | prev: ${prev_stok} → curr: ${curr_stok} | max: ${max_stok} | update: ${qty_update}`)
 
     // Skip jika stok sama
-    if (qty_update === prev_stok) {
-      console.log('Stok sama, tidak update')
-      return
-    }
+    // if (qty_update === prev_stok) {
+    //   console.log('Stok sama, tidak update')
+    //   return
+    // }
 
     // Request body API Zalora
     const body = [
